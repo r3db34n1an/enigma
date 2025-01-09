@@ -1,0 +1,402 @@
+# St 31. 	IV V I 		21 15 16 		KL IT FQ HY XC NP VZ JB SE OG 	jkm ogi ncj glp
+- id_groups:
+    - jkm
+    - ogi
+    - ncj
+    - glp
+  rotors:
+  - IV: 21
+  - V: 15
+  - I: 16
+  reflector: B
+  plug_board: KL IT FQ HY XC NP VZ JB SE OG
+
+# St 30. 	IV II III 	26 14 11 		ZN YO QB ER DK XU GP TV SJ LM 	ino udl nam lax
+- id_groups:
+    - ino
+    - udl
+    - nam
+    - lax
+  rotors:
+    - IV: 26
+    - II: 14
+    - III: 11
+  reflector: B
+  plug_board: ZN YO QB ER DK XU GP TV SJ LM
+
+#  St 29. 	II V IV 	19 09 24 		ZU HL CQ WM OA PY EB TR DN VI 	nci oid yhp nip
+- id_groups:
+    - nci
+    - oid
+    - yhp
+    - nip
+  rotors:
+    - II: 19
+    - V: 9
+    - IV: 24
+  reflector: B
+  plug_board: ZU HL CQ WM OA PY EB TR DN VI
+
+#  St 28. 	IV III I 	03 04 22 		YT BX CV ZN UD IR SJ HW GA KQ 	zqj hlg xky ebt
+- id_groups:
+    - zqj
+    - hlg
+    - xky
+    - ebt
+  rotors:
+    - IV: 3
+    - III: 4
+    - I: 22
+  reflector: B
+  plug_board: YT BX CV ZN UD IR SJ HW GA KQ
+
+#  St 27. 	V I IV 		20 06 18 		KX GJ EP AC TB HL MW QS DV OZ 	bvo sur ccc lqe
+- id_groups:
+    - bvo
+    - sur
+    - ccc
+    - lqe
+  rotors:
+    - V: 20
+    - I: 6
+    - IV: 18
+  reflector: B
+  plug_board: KX GJ EP AC TB HL MW QS DV OZ
+
+#  St 26. 	IV I V 		10 17 01 		YV GT OQ WN FI SK LD RP MZ BU 	jhx uuh giw ugw
+- id_groups:
+    - jhx
+    - uuh
+    - giw
+    - ugw
+  rotors:
+    - IV: 10
+    - I: 17
+    - V: 1
+  reflector: B
+  plug_board: YV GT OQ WN FI SK LD RP MZ BU
+
+#  St 25. 	V IV III 	13 04 17 		QR GB HA NM VS WD YZ OF XK PE 	tba pnc ukd nld
+- id_groups:
+    - tba
+    - pnc
+    - ukd
+    - nld
+  rotors:
+    - V: 13
+    - IV: 4
+    - III: 17
+  reflector: B
+  plug_board: QR GB HA NM VS WD YZ OF XK PE
+
+#  St 24. 	III II IV 	09 20 18 		RS NC WK GO YQ AX EH VJ ZL PF 	nfi mew xbk yes
+- id_groups:
+    - nfi
+    - mew
+    - xbk
+    - yes
+  rotors:
+    - III: 9
+    - II: 20
+    - IV: 18
+  reflector: B
+  plug_board: RS NC WK GO YQ AX EH VJ ZL PF
+
+#  St 23. 	V II III 	11 21 08 		EY DT KF MO XP HN WG ZL IV JA 	lsd nuo vcr vox
+- id_groups:
+    - lsd
+    - nuo
+    - vcr
+    - vox
+  rotors:
+    - V: 11
+    - II: 21
+    - III: 8
+  reflector: B
+  plug_board: EY DT KF MO XP HN WG ZL IV JA
+
+#  St 22. 	I II IV		01 25 02 		PZ SE OJ XF HA GB VQ UY KW LR 	yji rwy rdk nso
+- id_groups:
+    - yji
+    - rwy
+    - rdk
+    - nso
+  rotors:
+    - I: 1
+    - II: 25
+    - IV: 2
+  reflector: B
+  plug_board: PZ SE OJ XF HA GB VQ UY KW LR
+
+#  St 21. 	IV I III 	06 22 03 		GH JR TQ KF NZ IL WM BD UO EC 	ema mlv jjy iqh
+- id_groups:
+    - ema
+    - mlv
+    - jjy
+    - iqh
+  rotors:
+    - IV: 6
+    - I: 22
+    - III: 3
+  reflector: B
+  plug_board: GH JR TQ KF NZ IL WM BD UO EC
+
+#  St 20. 	V I II 		12 25 08 		TF RQ XV DZ PY NL WI SJ ME GB 	xjl pgs ggh znd
+- id_groups:
+    - xjl
+    - pgs
+    - ggh
+    - znd
+  rotors:
+    - V: 12
+    - I: 25
+    - II: 8
+  reflector: B
+  plug_board: TF RQ XV DZ PY NL WI SJ ME GB
+
+#  St 19. 	IV III II 	07 05 23 		ZX EU AC GD KP VO QS NW HL RM 	vpj zqe jrs cgm
+- id_groups:
+    - vpj
+    - zqe
+    - jrs
+    - cgm
+  rotors:
+    - IV: 7
+    - III: 5
+    - II: 23
+  reflector: B
+  plug_board: ZX EU AC GD KP VO QS NW HL RM
+
+#  St 18. 	II III V 	19 14 22 		WG OM RL DB ST AQ PZ XH YN IJ	oxd lnb ieu ytt
+- id_groups:
+    - oxd
+    - lnb
+    - ieu
+    - ytt
+  rotors:
+    - II: 19
+    - III: 14
+    - V: 22
+  reflector: B
+  plug_board: WG OM RL DB ST AQ PZ XH YN IJ
+
+#  St 17. 	IV I II 	12 08 21 		ME HX BF WY ZD TR PJ AG IL KQ 	tak pjs kdh jvh
+- id_groups:
+    - tak
+    - pjs
+    - kdh
+    - jvh
+  rotors:
+    - IV: 12
+    - I: 8
+    - II: 21
+  reflector: B
+  plug_board: ME HX BF WY ZD TR PJ AG IL KQ
+
+#  St 16. 	I II III 	07 11 15 		WZ AB MO TF RX SG QU VI YN EL 	pzg evw wyt iye
+- id_groups:
+    - pzg
+    - evw
+    - wyt
+    - iye
+  rotors:
+    - I: 7
+    - II: 11
+    - III: 15
+  reflector: B
+  plug_board: WZ AB MO TF RX SG QU VI YN EL
+
+#  St 15. 	III II V 	06 16 02 		GT YC EJ UA RX FN IS WB MH ZV 	bhe xzm yzk evp
+- id_groups:
+    - bhe
+    - xzm
+    - yzk
+    - evp
+  rotors:
+    - III: 6
+    - II: 16
+    - V: 2
+  reflector: B
+  plug_board: GT YC EJ UA RX FN IS WB MH ZV
+
+#  St 14. 	II I V 		23 05 24 		AZ CJ WF UY SO QV MI NH DP GX 	fax tyj bmq typ
+- id_groups:
+    - fax
+    - tyj
+    - bmq
+    - typ
+  rotors:
+    - II: 23
+    - I: 5
+    - V: 24
+  reflector: B
+  plug_board: AZ CJ WF UY SO QV MI NH DP GX
+
+#  St 13. 	IV II V 	03 25 10 		CX KN JR DQ IU TL HZ MF EP WB 	zfo bjr zwx gvn
+- id_groups:
+    - zfo
+    - bjr
+    - zwx
+    - gvn
+  rotors:
+    - IV: 3
+    - II: 25
+    - V: 10
+  reflector: B
+  plug_board: CX KN JR DQ IU TL HZ MF EP WB
+
+#  St 12.  I III II 	26 01 18		QB YE WN AI GJ TO HR FK PS CM 	upc anf tkr pwz
+- id_groups:
+    - upc
+    - anf
+    - tkr
+    - pwz
+  rotors:
+    - I: 26
+    - III: 1
+    - II: 18
+  reflector: B
+  plug_board: QB YE WN AI GJ TO HR FK PS CM
+
+#  St 11.  V I III 	17 13 04		SV GO PA ZR FN HI YM WT DE BJ 	vdh ego wmy uti
+- id_groups:
+    - vdh
+    - ego
+    - wmy
+    - uti
+  rotors:
+    - V: 17
+    - I: 13
+    - III: 4
+  reflector: B
+  plug_board: SV GO PA ZR FN HI YM WT DE BJ
+
+#  St 10. 	I V IV 		26 07 16		SW AQ NP FO VY UX MK CL HT ZJ 	rpl anw vpr mhn
+- id_groups:
+    - rpl
+    - anw
+    - vpr
+    - mhn
+  rotors:
+    - I: 26
+    - V: 7
+    - IV: 16
+  reflector: B
+  plug_board: SW AQ NP FO VY UX MK CL HT ZJ
+
+#  St  9. 	I III IV 	17 10 18 		EH IR GK NZ SP UA LD CQ JM YV 	knq ysq rhj tlj
+- id_groups:
+    - knq
+    - ysq
+    - rhj
+    - tlj
+  rotors:
+    - I: 17
+    - III: 10
+    - IV: 18
+  reflector: B
+  plug_board: EH IR GK NZ SP UA LD CQ JM YV
+
+#  St  8.  V II I 		23 11 25 		QY OG ST HA CB WD KL JN VX IU 	lro avw axh gws
+- id_groups:
+    - lro
+    - avw
+    - axh
+    - gws
+  rotors:
+    - V: 23
+    - II: 11
+    - I: 25
+  reflector: B
+  plug_board: QY OG ST HA CB WD KL JN VX IU
+
+#  St  7. 	II III I 	06 12 03 		BG FS TH JE VK PR CU QA OD NM 	aty mbb mvo jmz
+- id_groups:
+    - aty
+    - mbb
+    - mvo
+    - jmz
+  rotors:
+    - II: 6
+    - III: 12
+    - I: 3
+  reflector: B
+  plug_board: BG FS TH JE VK PR CU QA OD NM
+
+#  St  6. 	I IV V 		24 19 01 		IR HQ NT WZ VC OY GP LF BX AK 	bhc iwc zgz rnr
+- id_groups:
+    - bhc
+    - iwc
+    - zgz
+    - rnr
+  rotors:
+    - I: 24
+    - IV: 19
+    - V: 1
+  reflector: B
+  plug_board: IR HQ NT WZ VC OY GP LF BX AK
+
+#  St  5. 	II IV III 	05 22 14 		MK GO RQ XT DW IA ZL SY PJ EN	bok rzw kzo ryl
+- id_groups:
+    - bok
+    - rzw
+    - kzo
+    - ryl
+  rotors:
+    - II: 5
+    - IV: 22
+    - III: 14
+  reflector: B
+  plug_board: MK GO RQ XT DW IA ZL SY PJ EN
+
+#  St  4. 	IV II I 	15 02 21 		KD PG CO FW HJ RY MT QL VB UZ 	kpk php xmo pfw
+- id_groups:
+    - kpk
+    - php
+    - xmo
+    - pfw
+  rotors:
+    - IV: 15
+    - II: 2
+    - I: 21
+  reflector: B
+  plug_board: KD PG CO FW HJ RY MT QL VB UZ
+
+#  St  3. 	III V IV 	03 23 04 		DY CP WN OV QH UZ RA TI GL SM 	hjy nkt ytn pvc
+- id_groups:
+    - hjy
+    - nkt
+    - ytn
+    - pvc
+  rotors:
+    - III: 3
+    - V: 23
+    - IV: 4
+  reflector: B
+  plug_board: DY CP WN OV QH UZ RA TI GL SM
+
+#  St  2. 	I III V 	13 18 01 		DR VJ PS ZK IU HX AQ GT YO FC 	cpq fqw oiy ruj
+- id_groups:
+    - cpq
+    - fqw
+    - oiy
+    - ruj
+  rotors:
+    - I: 13
+    - III: 18
+    - V: 1
+  reflector: B
+  plug_board: DR VJ PS ZK IU HX AQ GT YO FC
+
+#  St  1. 	II IV I 	06 17 26 		AC LS BQ WN MT UV FJ PZ TR OK 	ool ooi ywv sfb
+- id_groups:
+    - ool
+    - ooi
+    - ywv
+    - sfb
+  rotors:
+    - II: 6
+    - IV: 17
+    - I: 26
+  reflector: B
+  plug_board: AC LS BQ WN MY UV FJ PZ TR OK

@@ -1,0 +1,9 @@
+.idea/
+vendor/
+include/
+dist/
+/configs/migrate.yaml
+/configs/run.yaml
+/survey.*
+.env
+.DS_Store

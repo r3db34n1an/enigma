@@ -1,0 +1,38 @@
+from https://www.ciphermachinesandcryptology.com/en/enigmaproc.htm
+
+Armee-Stabs-Maschinenschlüssel Nr. 28
+für Oktober 1944
+
+   Datum 	Walzenlage 	Ringstellung 	Steckerverbindungen 			Kenngruppen
+St 31. 	    IV V I 		21 15 16 		KL IT FQ HY XC NP VZ JB SE OG 	jkm ogi ncj glp
+St 30. 	    IV II III 	26 14 11 		ZN YO QB ER DK XU GP TV SJ LM 	ino udl nam lax
+St 29.  	II V IV 	19 09 24 		ZU HL CQ WM OA PY EB TR DN VI 	nci oid yhp nip
+St 28. 	    IV III I 	03 04 22 		YT BX CV ZN UD IR SJ HW GA KQ 	zqj hlg xky ebt
+St 27. 	    V I IV 		20 06 18 		KX GJ EP AC TB HL MW QS DV OZ 	bvo sur ccc lqe
+St 26. 	    IV I V 		10 17 01 		YV GT OQ WN FI SK LD RP MZ BU 	jhx uuh giw ugw
+St 25. 	    V IV III 	13 04 17 		QR GB HA NM VS WD YZ OF XK PE 	tba pnc ukd nld
+St 24. 	    III II IV 	09 20 18 		RS NC WK GO YQ AX EH VJ ZL PF 	nfi mew xbk yes
+St 23. 	    V II III 	11 21 08 		EY DT KF MO XP HN WG ZL IV JA 	lsd nuo vcr vox
+St 22. 	    I II IV		01 25 02 		PZ SE OJ XF HA GB VQ UY KW LR 	yji rwy rdk nso
+St 21. 	    IV I III 	06 22 03 		GH JR TQ KF NZ IL WM BD UO EC 	ema mlv jjy iqh
+St 20. 	    V I II 		12 25 08 		TF RQ XV DZ PY NL WI SJ ME GB 	xjl pgs ggh znd
+St 19. 	    IV III II 	07 05 23 		ZX EU AC GD KP VO QS NW HL RM 	vpj zqe jrs cgm
+St 18. 	    II III V 	19 14 22 		WG OM RL DB ST AQ PZ XH YN IJ	oxd lnb ieu ytt
+St 17. 	    IV I II 	12 08 21 		ME HX BF WY ZD TR PJ AG IL KQ 	tak pjs kdh jvh
+St 16.  	I II III 	07 11 15 		WZ AB MO TF RX SG QU VI YN EL 	pzg evw wyt iye
+St 15. 	    III II V 	06 16 02 		GT YC EJ UA RX FN IS WB MH ZV 	bhe xzm yzk evp
+St 14. 	    II I V 		23 05 24 		AZ CJ WF UY SO QV MI NH DP GX 	fax tyj bmq typ
+St 13. 	    IV II V 	03 25 10 		CX KN JR DQ IU TL HZ MF EP WB 	zfo bjr zwx gvn
+St 12.      I III II 	26 01 18		QB YE WN AI GJ TO HR FK PS CM 	upc anf tkr pwz
+St 11.      V I III 	17 13 04		SV GO PA ZR FN HI YM WT DE BJ 	vdh ego wmy uti
+St 10. 	    I V IV 		26 07 16		SW AQ NP FO VY UX MK CL HT ZJ 	rpl anw vpr mhn
+St  9. 	    I III IV 	17 10 18 		EH IR GK NZ SP UA LD CQ JM YV 	knq ysq rhj tlj
+St  8.      V II I 		23 11 25 		QY OG ST HA CB WD KL JN VX IU 	lro avw axh gws
+St  7.  	II III I 	06 12 03 		BG FS TH JE VK PR CU QA OD NM 	aty mbb mvo jmz
+St  6. 	    I IV V 		24 19 01 		IR HQ NT WZ VC OY GP LF BX AK 	bhc iwc zgz rnr
+St  5. 	    II IV III 	05 22 14 		MK GO RQ XT DW IA ZL SY PJ EN	bok rzw kzo ryl
+St  4. 	    IV II I 	15 02 21 		KD PG CO FW HJ RY MT QL VB UZ 	kpk php xmo pfw
+St  3. 	    III V IV 	03 23 04 		DY CP WN OV QH UZ RA TI GL SM 	hjy nkt ytn pvc
+St  2. 	    I III V 	13 18 01 		DR VJ PS ZK IU HX AQ GT YO FC 	cpq fqw oiy ruj
+St  1. 	    II IV I 	06 17 26 		AC LS BQ WN MY UV FJ PZ TR OK 	ool ooi ywv sfb
+
