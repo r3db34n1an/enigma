@@ -46,16 +46,16 @@ func (what *Enigma) Encrypt(plainText []byte, key string) ([]byte, error) {
 	return what.EncryptWithPlugBoard(plainText, key, "")
 }
 
-func (what *Enigma) EncryptWithPlugBoard(plainText []byte, key string, plugBoard string) ([]byte, error) {
+func (what *Enigma) EncryptWithSetting(plainText []byte, setting *Setting) ([]byte, error) {
 	*what = Enigma{
 		copyExtra: what.copyExtra,
 	}
 
-	keyError := what.readKeyAndPlugBoard(key, plugBoard)
-	if keyError != nil {
-		return nil, fmt.Errorf("failed to read key: %v", keyError)
+	if setting == nil {
+		return nil, fmt.Errorf("no setting")
 	}
 
+	what.setting = *setting
 	var cipherText []byte
 	for index, plain := range plainText {
 		if what.copyExtra {
@@ -113,20 +113,29 @@ func (what *Enigma) EncryptWithPlugBoard(plainText []byte, key string, plugBoard
 	return cipherText, nil
 }
 
-func (what *Enigma) Decrypt(cipherText []byte, key string) ([]byte, error) {
-	return what.DecryptWithPlugBoard(cipherText, key, "")
-}
-
-func (what *Enigma) DecryptWithPlugBoard(cipherText []byte, key string, plugBoard string) ([]byte, error) {
-	*what = Enigma{
-		copyExtra: what.copyExtra,
-	}
-
-	keyError := what.readKeyAndPlugBoard(key, plugBoard)
+func (what *Enigma) EncryptWithPlugBoard(plainText []byte, key string, plugBoard string) ([]byte, error) {
+	setting, keyError := what.readKeyAndPlugBoard(key, plugBoard)
 	if keyError != nil {
 		return nil, fmt.Errorf("failed to read key: %v", keyError)
 	}
 
+	return what.EncryptWithSetting(plainText, setting)
+}
+
+func (what *Enigma) Decrypt(cipherText []byte, key string) ([]byte, error) {
+	return what.DecryptWithPlugBoard(cipherText, key, "")
+}
+
+func (what *Enigma) DecryptWithSetting(cipherText []byte, setting *Setting) ([]byte, error) {
+	*what = Enigma{
+		copyExtra: what.copyExtra,
+	}
+
+	if setting == nil {
+		return nil, fmt.Errorf("no setting")
+	}
+
+	what.setting = *setting
 	var plainText []byte
 	for index, encrypted := range cipherText {
 		if what.copyExtra {
@@ -184,6 +193,15 @@ func (what *Enigma) DecryptWithPlugBoard(cipherText []byte, key string, plugBoar
 	return plainText, nil
 }
 
+func (what *Enigma) DecryptWithPlugBoard(cipherText []byte, key string, plugBoard string) ([]byte, error) {
+	setting, keyError := what.readKeyAndPlugBoard(key, plugBoard)
+	if keyError != nil {
+		return nil, fmt.Errorf("failed to read key: %v", keyError)
+	}
+
+	return what.EncryptWithSetting(cipherText, setting)
+}
+
 func (what *Enigma) GenerateKey() (string, error) {
 	var setting Setting
 	randomError := setting.Random()
@@ -225,29 +243,30 @@ func (what *Enigma) Sanitize(plainText string) string {
 	return re.ReplaceAllString(plainText, "")
 }
 
-func (what *Enigma) readKeyAndPlugBoard(key string, plugBoard string) error {
+func (what *Enigma) readKeyAndPlugBoard(key string, plugBoard string) (*Setting, error) {
+	setting := new(Setting)
+
 	var importedKey ExportSetting
 	parseError := importedKey.Parse(key)
 	if parseError != nil {
-		return fmt.Errorf("failed to parse key: %v", parseError)
+		return nil, fmt.Errorf("failed to parse key: %v", parseError)
 	}
 
-	importError := what.setting.Import(importedKey)
+	importError := setting.Import(importedKey)
 	if importError != nil {
-		return fmt.Errorf("failed to import key: %v", importError)
+		return nil, fmt.Errorf("failed to import key: %v", importError)
 	}
 
 	if len(plugBoard) > 0 {
-		setting := new(Setting)
 		plugBoardError := setting.loadPlugBoard(plugBoard)
 		if plugBoardError != nil {
-			return fmt.Errorf("failed to load plug board: %v", plugBoardError)
+			return nil, fmt.Errorf("failed to load plug board: %v", plugBoardError)
 		}
 
-		what.setting.PlugBoard = setting.PlugBoard
+		setting.PlugBoard = setting.PlugBoard
 	}
 
-	return nil
+	return setting, nil
 }
 
 func (what *Enigma) shouldEncrypt(c byte) bool {
