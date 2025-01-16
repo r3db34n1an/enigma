@@ -58,8 +58,13 @@ func (what *Reflector) load(data any) error {
 }
 
 func (what *Reflectors) load(data any) error {
+	castData, ok := data.([]byte)
+	if !ok {
+		return fmt.Errorf("invalid reflectors data, expected []byte, got %T", data)
+	}
+
 	var items map[string]any
-	parseError := yaml.Unmarshal(data.([]byte), &items)
+	parseError := yaml.Unmarshal(castData, &items)
 	if parseError != nil {
 		return fmt.Errorf("failed to parse reflectors: %v", parseError)
 	}

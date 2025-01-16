@@ -262,8 +262,6 @@ func (what *Enigma) readKeyAndPlugBoard(key string, plugBoard string) (*Setting,
 		if plugBoardError != nil {
 			return nil, fmt.Errorf("failed to load plug board: %v", plugBoardError)
 		}
-
-		setting.PlugBoard = setting.PlugBoard
 	}
 
 	return setting, nil

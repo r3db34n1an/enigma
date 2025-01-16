@@ -283,43 +283,9 @@ func (what *Setting) loadPlugBoard(value any) error {
 
 	switch castValue := value.(type) {
 	case string:
-		for _, plug := range strings.Fields(strings.ToUpper(castValue)) {
-			if len(plug) != 2 {
-				return fmt.Errorf("invalid plug board value %q, expected 2 characters", plug)
-			}
-
-			plugOne := strings.IndexRune(upperCase, rune(plug[0]))
-			plugTwo := strings.IndexRune(upperCase, rune(plug[1]))
-			if plugOne == -1 || plugTwo == -1 {
-				return fmt.Errorf("invalid plug board value %q", plug)
-			}
-
-			_, plugOneExists := what.PlugBoard.Mapping[plugOne]
-			if plugOneExists {
-				return fmt.Errorf("duplicate plug board value %q", plug)
-			}
-
-			_, plugTwoExists := what.PlugBoard.Mapping[plugTwo]
-			if plugTwoExists {
-				return fmt.Errorf("duplicate plug board value %q", plug)
-			}
-
-			what.PlugBoard.Mapping[plugOne] = plugTwo
-			what.PlugBoard.Mapping[plugTwo] = plugOne
-		}
-
-		for _, letter := range upperCase {
-			plug := strings.IndexRune(upperCase, letter)
-
-			_, forwardExists := what.PlugBoard.Mapping[strings.IndexRune(upperCase, letter)]
-			if !forwardExists {
-				what.PlugBoard.Mapping[plug] = plug
-			}
-
-			_, reverseExists := what.PlugBoard.Mapping[strings.IndexRune(upperCase, letter)]
-			if !reverseExists {
-				what.PlugBoard.Mapping[plug] = plug
-			}
+		parseError := what.PlugBoard.Parse(castValue)
+		if parseError != nil {
+			return fmt.Errorf("invalid plug board: %v", parseError)
 		}
 
 	default:
