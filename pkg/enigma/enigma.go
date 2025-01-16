@@ -43,11 +43,15 @@ func (what *Enigma) Init() error {
 }
 
 func (what *Enigma) Encrypt(plainText []byte, key string) ([]byte, error) {
+	return what.EncryptWithPlugBoard(plainText, key, "")
+}
+
+func (what *Enigma) EncryptWithPlugBoard(plainText []byte, key string, plugBoard string) ([]byte, error) {
 	*what = Enigma{
 		copyExtra: what.copyExtra,
 	}
 
-	keyError := what.readKey(key)
+	keyError := what.readKeyAndPlugBoard(key, plugBoard)
 	if keyError != nil {
 		return nil, fmt.Errorf("failed to read key: %v", keyError)
 	}
@@ -110,11 +114,15 @@ func (what *Enigma) Encrypt(plainText []byte, key string) ([]byte, error) {
 }
 
 func (what *Enigma) Decrypt(cipherText []byte, key string) ([]byte, error) {
+	return what.DecryptWithPlugBoard(cipherText, key, "")
+}
+
+func (what *Enigma) DecryptWithPlugBoard(cipherText []byte, key string, plugBoard string) ([]byte, error) {
 	*what = Enigma{
 		copyExtra: what.copyExtra,
 	}
 
-	keyError := what.readKey(key)
+	keyError := what.readKeyAndPlugBoard(key, plugBoard)
 	if keyError != nil {
 		return nil, fmt.Errorf("failed to read key: %v", keyError)
 	}
@@ -217,7 +225,7 @@ func (what *Enigma) Sanitize(plainText string) string {
 	return re.ReplaceAllString(plainText, "")
 }
 
-func (what *Enigma) readKey(key string) error {
+func (what *Enigma) readKeyAndPlugBoard(key string, plugBoard string) error {
 	var importedKey ExportSetting
 	parseError := importedKey.Parse(key)
 	if parseError != nil {
@@ -227,6 +235,16 @@ func (what *Enigma) readKey(key string) error {
 	importError := what.setting.Import(importedKey)
 	if importError != nil {
 		return fmt.Errorf("failed to import key: %v", importError)
+	}
+
+	if len(plugBoard) > 0 {
+		setting := new(Setting)
+		plugBoardError := setting.loadPlugBoard(plugBoard)
+		if plugBoardError != nil {
+			return fmt.Errorf("failed to load plug board: %v", plugBoardError)
+		}
+
+		what.setting.PlugBoard = setting.PlugBoard
 	}
 
 	return nil
