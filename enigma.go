@@ -36,12 +36,28 @@ func (what *Enigma) Encrypt(plainText []byte, key string) ([]byte, error) {
 	return what.machine.Encrypt(plainText, key)
 }
 
+func (what *Enigma) EncryptWithPlugBoard(plainText []byte, key string, plugBoard string) ([]byte, error) {
+	if what.machine == nil {
+		return nil, fmt.Errorf("no enigma machine")
+	}
+
+	return what.machine.EncryptWithPlugBoard(plainText, key, plugBoard)
+}
+
 func (what *Enigma) Decrypt(cipherText []byte, key string) ([]byte, error) {
 	if what.machine == nil {
 		return nil, fmt.Errorf("no enigma machine")
 	}
 
 	return what.machine.Decrypt(cipherText, key)
+}
+
+func (what *Enigma) DecryptWithPlugBoard(cipherText []byte, key string, plugBoard string) ([]byte, error) {
+	if what.machine == nil {
+		return nil, fmt.Errorf("no enigma machine")
+	}
+
+	return what.machine.DecryptWithPlugBoard(cipherText, key, plugBoard)
 }
 
 func (what *Enigma) GenerateKey() (string, error) {
