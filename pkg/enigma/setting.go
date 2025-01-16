@@ -17,24 +17,24 @@ type Setting struct {
 
 type Settings []Setting
 
-func GetSetting(name string) (*Setting, error) {
+func (what *Setting) Get(name string) error {
 	if settings == nil {
 		loadError := settings.load(settingsYaml)
 		if loadError != nil {
-			return nil, fmt.Errorf("failed to load settings: %v", loadError)
+			return fmt.Errorf("failed to load settings: %v", loadError)
 		}
 	}
 
 	for _, setting := range settings {
 		for _, idGroup := range setting.IDGroups {
 			if strings.ToUpper(name) == idGroup {
-				newSetting := setting
-				return &newSetting, nil
+				*what = setting
+				return nil
 			}
 		}
 	}
 
-	return nil, fmt.Errorf("setting %q not found", name)
+	return fmt.Errorf("setting %q not found", name)
 }
 
 func (what *Setting) Random() error {
@@ -75,27 +75,64 @@ func (what *Setting) Export() ExportSetting {
 	}
 }
 
-func (what *Setting) Import(setting ExportSetting) error {
-	for _, exportedRotor := range setting.Rotors {
-		rotor, rotorError := GetRotor(exportedRotor.Name)
+func (what *Setting) Import(exportSetting ExportSetting) error {
+	what.Rotors = nil
+	for _, exportedRotor := range exportSetting.Rotors {
+		rotorError := what.ImportRotor(exportedRotor)
 		if rotorError != nil {
-			return fmt.Errorf("invalid rotor %q: %v", exportedRotor.Name, rotorError)
+			return rotorError
 		}
-
-		rotor.Position = strings.IndexRune(upperCase, rune(exportedRotor.Position[0]))
-		rotor.RingSetting = strings.IndexRune(upperCase, rune(exportedRotor.RingSetting[0]))
-		what.Rotors = append(what.Rotors, rotor)
 	}
 
-	reflector, reflectorError := GetReflector(setting.Reflector)
+	reflectorError := what.ImportReflector(exportSetting.Reflector)
 	if reflectorError != nil {
-		return fmt.Errorf("invalid reflector %q: %v", setting.Reflector, reflectorError)
+		return reflectorError
+	}
+
+	plugBoardError := what.ImportPlugBoard(exportSetting.PlugBoard)
+	if plugBoardError != nil {
+		return plugBoardError
+	}
+
+	return what.validate(true)
+}
+
+func (what *Setting) ImportRotor(exportRotor ExportRotor) error {
+	rotor, rotorError := GetRotor(strings.ToUpper(exportRotor.Name))
+	if rotorError != nil {
+		return fmt.Errorf("invalid rotor %q: %v", exportRotor.Name, rotorError)
+	}
+
+	exportRotor.Position = strings.ToUpper(exportRotor.Position)
+	exportRotor.RingSetting = strings.ToUpper(exportRotor.RingSetting)
+
+	rotor.Position = strings.IndexRune(upperCase, rune(exportRotor.Position[0]))
+	rotor.RingSetting = strings.IndexRune(upperCase, rune(exportRotor.RingSetting[0]))
+
+	what.Rotors = append(what.Rotors, rotor)
+
+	return nil
+}
+
+func (what *Setting) ImportReflector(exportReflector string) error {
+	reflector, reflectorError := GetReflector(exportReflector)
+	if reflectorError != nil {
+		return fmt.Errorf("invalid reflector %q: %v", exportReflector, reflectorError)
 	}
 
 	what.Reflector = *reflector
 
+	return nil
+}
+
+func (what *Setting) ImportPlugBoard(exportPlugBoard ExportPlugBoard) error {
 	what.PlugBoard.Mapping = make(map[int]int)
-	for plug, value := range setting.PlugBoard {
+
+	if exportPlugBoard == nil {
+		return nil
+	}
+
+	for plug, value := range exportPlugBoard {
 		plugIndex := strings.IndexRune(upperCase, rune(plug[0]))
 		valueIndex := strings.IndexRune(upperCase, rune(value[0]))
 
@@ -103,7 +140,7 @@ func (what *Setting) Import(setting ExportSetting) error {
 		what.PlugBoard.Mapping[valueIndex] = plugIndex
 	}
 
-	return what.validate(true)
+	return nil
 }
 
 func (what *Setting) Clone() (*Setting, error) {
@@ -246,7 +283,7 @@ func (what *Setting) loadPlugBoard(value any) error {
 
 	switch castValue := value.(type) {
 	case string:
-		for _, plug := range strings.Fields(castValue) {
+		for _, plug := range strings.Fields(strings.ToUpper(castValue)) {
 			if len(plug) != 2 {
 				return fmt.Errorf("invalid plug board value %q, expected 2 characters", plug)
 			}

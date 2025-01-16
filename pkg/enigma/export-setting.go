@@ -8,21 +8,15 @@ import (
 )
 
 type ExportSetting struct {
-	Rotors    []ExportRotor     `json:"rotors,omitempty"     yaml:"rotors,omitempty"`     // Walzenlage
-	Reflector string            `json:"reflector,omitempty"  yaml:"reflector,omitempty"`  // Reflektor
-	PlugBoard map[string]string `json:"plug_board,omitempty" yaml:"plug_board,omitempty"` // Steckerverbindungen
+	Rotors    []ExportRotor   `json:"rotors,omitempty"     yaml:"rotors,omitempty"`     // Walzenlage
+	Reflector string          `json:"reflector,omitempty"  yaml:"reflector,omitempty"`  // Reflektor
+	PlugBoard ExportPlugBoard `json:"plug_board,omitempty" yaml:"plug_board,omitempty"` // Steckerverbindungen
 
 	// generated values
 	RotorInfo     []string `json:"rotor_info,omitempty"     yaml:"rotor_info,omitempty"`
 	RotorSettings string   `json:"rotor_settings,omitempty" yaml:"rotor_settings,omitempty"`
 	Plugs         string   `json:"plugs,omitempty"          yaml:"plugs,omitempty"`
 	Key           string   `json:"key,omitempty"            yaml:"key,omitempty"`
-}
-
-type ExportRotor struct {
-	Name        string `json:"name,omitempty"         yaml:"name,omitempty"`
-	Position    string `json:"position,omitempty"     yaml:"position,omitempty"`     // Grundstellung
-	RingSetting string `json:"ring_setting,omitempty" yaml:"ring_setting,omitempty"` // Ringstellung
 }
 
 func (what *ExportSetting) Parse(value string) error {
