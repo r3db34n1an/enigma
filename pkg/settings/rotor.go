@@ -1,7 +1,9 @@
-package enigma
+package settings
 
 import (
 	"fmt"
+	"github.com/r3db34n1an/enigma/pkg/defs"
+	"github.com/r3db34n1an/enigma/pkg/embed"
 	"gopkg.in/yaml.v3"
 	"strings"
 )
@@ -23,7 +25,7 @@ type RotorGroup []*Rotor
 func GetRotor(name string) (*Rotor, error) {
 	if rotors == nil {
 		rotors = make(Rotors)
-		loadError := rotors.load(rotorsYaml)
+		loadError := rotors.load(embed.RotorsYaml)
 		if loadError != nil {
 			return nil, fmt.Errorf("failed to load rotors: %v", loadError)
 		}
@@ -43,7 +45,7 @@ func (what *Rotor) ParseRingSetting(name string) error {
 		return fmt.Errorf("missing ring setting")
 	}
 
-	index := strings.IndexRune(upperCase, rune(strings.ToUpper(name)[0]))
+	index := strings.IndexRune(defs.UpperCase, rune(strings.ToUpper(name)[0]))
 	if index < 0 {
 		return fmt.Errorf("invalid ring setting %q", name)
 	}
@@ -57,7 +59,7 @@ func (what *Rotor) ParsePosition(name string) error {
 		return fmt.Errorf("missing ring setting")
 	}
 
-	index := strings.IndexRune(upperCase, rune(strings.ToUpper(name)[0]))
+	index := strings.IndexRune(defs.UpperCase, rune(strings.ToUpper(name)[0]))
 	if index < 0 {
 		return fmt.Errorf("invalid ring setting %q", name)
 	}
@@ -67,7 +69,7 @@ func (what *Rotor) ParsePosition(name string) error {
 }
 
 func (what *Rotor) encrypt(in int) int {
-	limit := len(upperCase)
+	limit := len(defs.UpperCase)
 
 	advance := what.Position - what.RingSetting
 	in += limit + advance
@@ -80,7 +82,7 @@ func (what *Rotor) encrypt(in int) int {
 }
 
 func (what *Rotor) decrypt(in int) int {
-	limit := len(upperCase)
+	limit := len(defs.UpperCase)
 
 	in = (in - what.RingSetting + what.Position + limit) % limit
 	in = what.Reverse[in]
@@ -90,7 +92,7 @@ func (what *Rotor) decrypt(in int) int {
 }
 
 func (what *Rotor) move() {
-	limit := len(upperCase)
+	limit := len(defs.UpperCase)
 	what.Position = (what.Position + 1) % limit
 }
 
@@ -119,7 +121,7 @@ func (what *Rotor) load(rotorValue any) error {
 					what.Forward = make(map[int]int)
 					what.Reverse = make(map[int]int)
 					for index, value := range strings.ToUpper(castRotorAttributeValue) {
-						mapped := strings.IndexRune(upperCase, value)
+						mapped := strings.IndexRune(defs.UpperCase, value)
 						if mapped == -1 {
 							return fmt.Errorf("invalid rotor mapping value %q", value)
 						}
@@ -150,7 +152,7 @@ func (what *Rotor) load(rotorValue any) error {
 								return fmt.Errorf("invalid rotor notch %q, expected 1 character", notch)
 							}
 
-							what.Notches = append(what.Notches, strings.IndexRune(upperCase, rune(castNotch[0])))
+							what.Notches = append(what.Notches, strings.IndexRune(defs.UpperCase, rune(castNotch[0])))
 
 						default:
 							return fmt.Errorf("invalid rotor notch %T, expected int or string", notch)

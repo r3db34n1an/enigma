@@ -3,6 +3,8 @@ package enigma
 import (
 	_ "embed"
 	"fmt"
+	"github.com/r3db34n1an/enigma/pkg/defs"
+	"github.com/r3db34n1an/enigma/pkg/settings"
 	"regexp"
 	"strings"
 )
@@ -14,22 +16,9 @@ import (
 //	- https://en.wikipedia.org/wiki/Enigma_machine
 //	- https://www.cryptomuseum.com/crypto/enigma/index.htm
 
-//go:embed config/settings.yaml
-var settingsYaml []byte
-
-//go:embed config/rotors.yaml
-var rotorsYaml []byte
-
-//go:embed config/reflectors.yaml
-var reflectorsYaml []byte
-
-const (
-	upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-)
-
 type Enigma struct {
 	copyExtra bool
-	setting   Setting
+	setting   settings.Setting
 }
 
 func NewEnigma(copyExtra bool) (*Enigma, error) {
@@ -46,7 +35,7 @@ func (what *Enigma) Encrypt(plainText []byte, key string) ([]byte, error) {
 	return what.EncryptWithPlugBoard(plainText, key, "")
 }
 
-func (what *Enigma) EncryptWithSetting(plainText []byte, setting *Setting) ([]byte, error) {
+func (what *Enigma) EncryptWithSetting(plainText []byte, setting *settings.Setting) ([]byte, error) {
 	*what = Enigma{
 		copyExtra: what.copyExtra,
 	}
@@ -77,37 +66,37 @@ func (what *Enigma) EncryptWithSetting(plainText []byte, setting *Setting) ([]by
 
 		what.setting.Rotors.Move()
 
-		encrypted := strings.IndexRune(upperCase, rune(plain))
+		encrypted := strings.IndexRune(defs.UpperCase, rune(plain))
 		if encrypted < 0 {
 			return nil, fmt.Errorf("invalid character %q", plain)
 		}
 
 		encrypted = what.setting.PlugBoard.Transform(encrypted)
-		if encrypted < 0 || encrypted > len(upperCase) {
+		if encrypted < 0 || encrypted > len(defs.UpperCase) {
 			return nil, fmt.Errorf("plug board encryption of %q failed", plain)
 		}
 
 		encrypted = what.setting.Rotors.Encrypt(encrypted)
-		if encrypted < 0 || encrypted > len(upperCase) {
+		if encrypted < 0 || encrypted > len(defs.UpperCase) {
 			return nil, fmt.Errorf("plug rotor encryption of %q failed", plain)
 		}
 
 		encrypted = what.setting.Reflector.Reflect(encrypted)
-		if encrypted < 0 || encrypted > len(upperCase) {
+		if encrypted < 0 || encrypted > len(defs.UpperCase) {
 			return nil, fmt.Errorf("plug reflection of %q failed", plain)
 		}
 
 		encrypted = what.setting.Rotors.Decrypt(encrypted)
-		if encrypted < 0 || encrypted > len(upperCase) {
+		if encrypted < 0 || encrypted > len(defs.UpperCase) {
 			return nil, fmt.Errorf("plug rotor decryption of %q failed", plain)
 		}
 
 		encrypted = what.setting.PlugBoard.Transform(encrypted)
-		if encrypted < 0 || encrypted >= len(upperCase) {
+		if encrypted < 0 || encrypted >= len(defs.UpperCase) {
 			return nil, fmt.Errorf("plug board decryption of %q failed", plain)
 		}
 
-		cipherText = append(cipherText, upperCase[encrypted])
+		cipherText = append(cipherText, defs.UpperCase[encrypted])
 	}
 
 	return cipherText, nil
@@ -126,7 +115,7 @@ func (what *Enigma) Decrypt(cipherText []byte, key string) ([]byte, error) {
 	return what.DecryptWithPlugBoard(cipherText, key, "")
 }
 
-func (what *Enigma) DecryptWithSetting(cipherText []byte, setting *Setting) ([]byte, error) {
+func (what *Enigma) DecryptWithSetting(cipherText []byte, setting *settings.Setting) ([]byte, error) {
 	*what = Enigma{
 		copyExtra: what.copyExtra,
 	}
@@ -157,37 +146,37 @@ func (what *Enigma) DecryptWithSetting(cipherText []byte, setting *Setting) ([]b
 
 		what.setting.Rotors.Move()
 
-		plain := strings.IndexRune(upperCase, rune(encrypted))
+		plain := strings.IndexRune(defs.UpperCase, rune(encrypted))
 		if plain < 0 {
 			return nil, fmt.Errorf("invalid character %q", encrypted)
 		}
 
 		plain = what.setting.PlugBoard.Transform(plain)
-		if plain < 0 || plain > len(upperCase) {
+		if plain < 0 || plain > len(defs.UpperCase) {
 			return nil, fmt.Errorf("plug board encryption of %q failed", encrypted)
 		}
 
 		plain = what.setting.Rotors.Encrypt(plain)
-		if plain < 0 || plain > len(upperCase) {
+		if plain < 0 || plain > len(defs.UpperCase) {
 			return nil, fmt.Errorf("plug rotor encryption of %q failed", encrypted)
 		}
 
 		plain = what.setting.Reflector.Reflect(plain)
-		if plain < 0 || plain > len(upperCase) {
+		if plain < 0 || plain > len(defs.UpperCase) {
 			return nil, fmt.Errorf("plug reflection of %q failed", encrypted)
 		}
 
 		plain = what.setting.Rotors.Decrypt(plain)
-		if plain < 0 || plain > len(upperCase) {
+		if plain < 0 || plain > len(defs.UpperCase) {
 			return nil, fmt.Errorf("plug rotor decryption of %q failed", encrypted)
 		}
 
 		plain = what.setting.PlugBoard.Transform(plain)
-		if plain < 0 || plain >= len(upperCase) {
+		if plain < 0 || plain >= len(defs.UpperCase) {
 			return nil, fmt.Errorf("plug board decryption of %q failed", encrypted)
 		}
 
-		plainText = append(plainText, upperCase[plain])
+		plainText = append(plainText, defs.UpperCase[plain])
 	}
 
 	return plainText, nil
@@ -203,7 +192,7 @@ func (what *Enigma) DecryptWithPlugBoard(cipherText []byte, key string, plugBoar
 }
 
 func (what *Enigma) GenerateKey() (string, error) {
-	var setting Setting
+	var setting settings.Setting
 	randomError := setting.Random()
 	if randomError != nil {
 		return "", fmt.Errorf("failed to generate random setting: %v", randomError)
@@ -243,10 +232,10 @@ func (what *Enigma) Sanitize(plainText string) string {
 	return re.ReplaceAllString(plainText, "")
 }
 
-func (what *Enigma) readKeyAndPlugBoard(key string, plugBoard string) (*Setting, error) {
-	setting := new(Setting)
+func (what *Enigma) readKeyAndPlugBoard(key string, plugBoard string) (*settings.Setting, error) {
+	setting := new(settings.Setting)
 
-	var importedKey ExportSetting
+	var importedKey settings.ExportSetting
 	parseError := importedKey.Parse(key)
 	if parseError != nil {
 		return nil, fmt.Errorf("failed to parse key: %v", parseError)
@@ -258,7 +247,7 @@ func (what *Enigma) readKeyAndPlugBoard(key string, plugBoard string) (*Setting,
 	}
 
 	if len(plugBoard) > 0 {
-		plugBoardError := setting.loadPlugBoard(plugBoard)
+		plugBoardError := setting.LoadPlugBoard(plugBoard)
 		if plugBoardError != nil {
 			return nil, fmt.Errorf("failed to load plug board: %v", plugBoardError)
 		}
@@ -268,5 +257,5 @@ func (what *Enigma) readKeyAndPlugBoard(key string, plugBoard string) (*Setting,
 }
 
 func (what *Enigma) shouldEncrypt(c byte) bool {
-	return strings.ContainsRune(upperCase, rune(c))
+	return strings.ContainsRune(defs.UpperCase, rune(c))
 }

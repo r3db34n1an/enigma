@@ -1,7 +1,9 @@
-package enigma
+package settings
 
 import (
 	"fmt"
+	"github.com/r3db34n1an/enigma/pkg/defs"
+	"github.com/r3db34n1an/enigma/pkg/embed"
 	"gopkg.in/yaml.v3"
 	"strings"
 )
@@ -19,7 +21,7 @@ type Settings []Setting
 
 func (what *Setting) Get(name string) error {
 	if settings == nil {
-		loadError := settings.load(settingsYaml)
+		loadError := settings.Load(embed.SettingsYaml)
 		if loadError != nil {
 			return fmt.Errorf("failed to load settings: %v", loadError)
 		}
@@ -39,15 +41,15 @@ func (what *Setting) Get(name string) error {
 
 func (what *Setting) Random() error {
 	if settings == nil {
-		loadError := settings.load(settingsYaml)
+		loadError := settings.Load(embed.SettingsYaml)
 		if loadError != nil {
 			return fmt.Errorf("failed to load settings: %v", loadError)
 		}
 	}
 
-	*what = settings[RandomInt(0, len(settings)-1)]
+	*what = settings[defs.RandomInt(0, len(settings)-1)]
 	for _, rotor := range what.Rotors {
-		rotor.Position = RandomInt(0, 25)
+		rotor.Position = defs.RandomInt(0, 25)
 	}
 
 	return nil
@@ -65,7 +67,7 @@ func (what *Setting) Export() ExportSetting {
 
 	exportedPlugBoard := make(map[string]string)
 	for plug, value := range what.PlugBoard.Mapping {
-		exportedPlugBoard[string(upperCase[plug])] = string(upperCase[value])
+		exportedPlugBoard[string(defs.UpperCase[plug])] = string(defs.UpperCase[value])
 	}
 
 	return ExportSetting{
@@ -106,8 +108,8 @@ func (what *Setting) ImportRotor(exportRotor ExportRotor) error {
 	exportRotor.Position = strings.ToUpper(exportRotor.Position)
 	exportRotor.RingSetting = strings.ToUpper(exportRotor.RingSetting)
 
-	rotor.Position = strings.IndexRune(upperCase, rune(exportRotor.Position[0]))
-	rotor.RingSetting = strings.IndexRune(upperCase, rune(exportRotor.RingSetting[0]))
+	rotor.Position = strings.IndexRune(defs.UpperCase, rune(exportRotor.Position[0]))
+	rotor.RingSetting = strings.IndexRune(defs.UpperCase, rune(exportRotor.RingSetting[0]))
 
 	what.Rotors = append(what.Rotors, rotor)
 
@@ -133,8 +135,8 @@ func (what *Setting) ImportPlugBoard(exportPlugBoard ExportPlugBoard) error {
 	}
 
 	for plug, value := range exportPlugBoard {
-		plugIndex := strings.IndexRune(upperCase, rune(plug[0]))
-		valueIndex := strings.IndexRune(upperCase, rune(value[0]))
+		plugIndex := strings.IndexRune(defs.UpperCase, rune(plug[0]))
+		valueIndex := strings.IndexRune(defs.UpperCase, rune(value[0]))
 
 		what.PlugBoard.Mapping[plugIndex] = valueIndex
 		what.PlugBoard.Mapping[valueIndex] = plugIndex
@@ -153,31 +155,31 @@ func (what *Setting) Clone() (*Setting, error) {
 	return &setting, nil
 }
 
-func (what *Setting) load(data any) error {
+func (what *Setting) Load(data any) error {
 	switch castData := data.(type) {
 	case map[string]any:
 		for key, value := range castData {
 			switch strings.ToLower(key) {
 			case "id_groups":
-				importError := what.loadIDGroups(value)
+				importError := what.LoadIDGroups(value)
 				if importError != nil {
 					return fmt.Errorf("invalid id_groups: %v", importError)
 				}
 
 			case "rotors":
-				importError := what.loadRotors(value)
+				importError := what.LoadRotors(value)
 				if importError != nil {
 					return fmt.Errorf("invalid rotors: %v", importError)
 				}
 
 			case "reflector":
-				importError := what.loadReflector(value)
+				importError := what.LoadReflector(value)
 				if importError != nil {
 					return fmt.Errorf("invalid reflector: %v", importError)
 				}
 
 			case "plug_board":
-				importError := what.loadPlugBoard(value)
+				importError := what.LoadPlugBoard(value)
 				if importError != nil {
 					return fmt.Errorf("invalid plug_board: %v", importError)
 				}
@@ -194,7 +196,7 @@ func (what *Setting) load(data any) error {
 	return what.validate(false)
 }
 
-func (what *Setting) loadIDGroups(value any) error {
+func (what *Setting) LoadIDGroups(value any) error {
 	switch castValue := value.(type) {
 	case []any:
 		for _, idGroup := range castValue {
@@ -222,7 +224,7 @@ func (what *Setting) loadIDGroups(value any) error {
 	return nil
 }
 
-func (what *Setting) loadRotors(value any) error {
+func (what *Setting) LoadRotors(value any) error {
 	switch castValue := value.(type) {
 	case []any:
 		for _, rotorData := range castValue {
@@ -261,7 +263,7 @@ func (what *Setting) loadRotors(value any) error {
 	return nil
 }
 
-func (what *Setting) loadReflector(value any) error {
+func (what *Setting) LoadReflector(value any) error {
 	switch castValue := value.(type) {
 	case string:
 		reflector, reflectorError := GetReflector(castValue)
@@ -278,7 +280,7 @@ func (what *Setting) loadReflector(value any) error {
 	return nil
 }
 
-func (what *Setting) loadPlugBoard(value any) error {
+func (what *Setting) LoadPlugBoard(value any) error {
 	what.PlugBoard.Mapping = make(map[int]int)
 
 	switch castValue := value.(type) {
@@ -389,7 +391,7 @@ func (what *Setting) validate(imported bool) error {
 	return nil
 }
 
-func (what *Settings) load(data any) error {
+func (what *Settings) Load(data any) error {
 	var items []any
 	parseError := yaml.Unmarshal(data.([]byte), &items)
 	if parseError != nil {
@@ -398,7 +400,7 @@ func (what *Settings) load(data any) error {
 
 	for _, settingData := range items {
 		setting := new(Setting)
-		settingError := setting.load(settingData)
+		settingError := setting.Load(settingData)
 		if settingError != nil {
 			return settingError
 		}

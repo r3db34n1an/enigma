@@ -1,4 +1,4 @@
-package enigma
+package settings
 
 type ExportRotor struct {
 	Name        string `json:"name,omitempty"         yaml:"name,omitempty"`

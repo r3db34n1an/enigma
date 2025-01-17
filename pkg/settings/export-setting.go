@@ -1,4 +1,4 @@
-package enigma
+package settings
 
 import (
 	"fmt"

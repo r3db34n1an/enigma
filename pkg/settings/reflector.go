@@ -1,7 +1,9 @@
-package enigma
+package settings
 
 import (
 	"fmt"
+	"github.com/r3db34n1an/enigma/pkg/defs"
+	"github.com/r3db34n1an/enigma/pkg/embed"
 	"gopkg.in/yaml.v3"
 	"strings"
 )
@@ -18,7 +20,7 @@ type Reflectors map[string]*Reflector
 func GetReflector(name string) (*Reflector, error) {
 	if reflectors == nil {
 		reflectors = make(Reflectors)
-		loadError := reflectors.load(reflectorsYaml)
+		loadError := reflectors.load(embed.ReflectorsYaml)
 		if loadError != nil {
 			return nil, fmt.Errorf("failed to load reflectors: %v", loadError)
 		}
@@ -47,7 +49,7 @@ func (what *Reflector) load(data any) error {
 	case string:
 		what.Mapping = make(map[int]int)
 		for k, v := range strings.ToUpper(castData) {
-			what.Mapping[k] = strings.IndexRune(upperCase, v)
+			what.Mapping[k] = strings.IndexRune(defs.UpperCase, v)
 			if what.Mapping[k] == -1 {
 				return fmt.Errorf("invalid reflector value %q", v)
 			}

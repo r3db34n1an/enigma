@@ -1,4 +1,4 @@
-package enigma
+package defs
 
 import (
 	crand "crypto/rand"

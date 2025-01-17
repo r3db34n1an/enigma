@@ -3,6 +3,7 @@ package enigma
 import (
 	"fmt"
 	"github.com/r3db34n1an/enigma/pkg/enigma"
+	"github.com/r3db34n1an/enigma/pkg/settings"
 )
 
 type Enigma struct {
@@ -44,6 +45,14 @@ func (what *Enigma) EncryptWithPlugBoard(plainText []byte, key string, plugBoard
 	return what.machine.EncryptWithPlugBoard(plainText, key, plugBoard)
 }
 
+func (what *Enigma) EncryptWithSetting(plainText []byte, setting *settings.Setting) ([]byte, error) {
+	if what.machine == nil {
+		return nil, fmt.Errorf("no enigma machine")
+	}
+
+	return what.machine.EncryptWithSetting(plainText, setting)
+}
+
 func (what *Enigma) Decrypt(cipherText []byte, key string) ([]byte, error) {
 	if what.machine == nil {
 		return nil, fmt.Errorf("no enigma machine")
@@ -58,6 +67,14 @@ func (what *Enigma) DecryptWithPlugBoard(cipherText []byte, key string, plugBoar
 	}
 
 	return what.machine.DecryptWithPlugBoard(cipherText, key, plugBoard)
+}
+
+func (what *Enigma) DecryptWithSetting(cipherText []byte, setting *settings.Setting) ([]byte, error) {
+	if what.machine == nil {
+		return nil, fmt.Errorf("no enigma machine")
+	}
+
+	return what.machine.DecryptWithSetting(cipherText, setting)
 }
 
 func (what *Enigma) GenerateKey() (string, error) {
