@@ -38,6 +38,34 @@ func GetRotor(name string) (*Rotor, error) {
 	return &newRotor, nil
 }
 
+func (what *Rotor) ParseRingSetting(name string) error {
+	if name == "" {
+		return fmt.Errorf("missing ring setting")
+	}
+
+	index := strings.IndexRune(upperCase, rune(strings.ToUpper(name)[0]))
+	if index < 0 {
+		return fmt.Errorf("invalid ring setting %q", name)
+	}
+
+	what.RingSetting = index
+	return nil
+}
+
+func (what *Rotor) ParsePosition(name string) error {
+	if name == "" {
+		return fmt.Errorf("missing ring setting")
+	}
+
+	index := strings.IndexRune(upperCase, rune(strings.ToUpper(name)[0]))
+	if index < 0 {
+		return fmt.Errorf("invalid ring setting %q", name)
+	}
+
+	what.Position = index
+	return nil
+}
+
 func (what *Rotor) encrypt(in int) int {
 	limit := len(upperCase)
 
