@@ -44,7 +44,7 @@ func (what *ExportSetting) Generate() error {
 
 	var keys []string
 	for key, value := range what.PlugBoard {
-		if key != value {
+		if key != value && !slices.Contains(keys, key) && !slices.Contains(keys, value) {
 			keys = append(keys, key)
 		}
 	}
