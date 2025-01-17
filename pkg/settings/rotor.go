@@ -50,7 +50,7 @@ func (what *Rotor) ParseRingSetting(name string) error {
 		return fmt.Errorf("invalid ring setting %q", name)
 	}
 
-	what.RingSetting = index
+	what.RingSetting = index + 1
 	return nil
 }
 
@@ -64,7 +64,7 @@ func (what *Rotor) ParsePosition(name string) error {
 		return fmt.Errorf("invalid ring setting %q", name)
 	}
 
-	what.Position = index
+	what.Position = index + 1
 	return nil
 }
 
