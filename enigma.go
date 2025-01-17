@@ -10,8 +10,8 @@ type Enigma struct {
 	machine *enigma.Enigma
 }
 
-func NewEnigma(copyExtra bool) (*Enigma, error) {
-	machine, enigmaError := enigma.NewEnigma(copyExtra)
+func NewEnigma(copyExtra bool, preserveCase bool) (*Enigma, error) {
+	machine, enigmaError := enigma.NewEnigma(copyExtra, preserveCase)
 	if enigmaError != nil {
 		return nil, fmt.Errorf("failed to create enigma machine: %v", enigmaError)
 	}

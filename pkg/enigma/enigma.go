@@ -7,6 +7,7 @@ import (
 	"github.com/r3db34n1an/enigma/pkg/settings"
 	"regexp"
 	"strings"
+	"unicode"
 )
 
 // Sources:
@@ -17,13 +18,15 @@ import (
 //	- https://www.cryptomuseum.com/crypto/enigma/index.htm
 
 type Enigma struct {
-	copyExtra bool
-	setting   settings.Setting
+	preserveFormatting bool
+	preserveCase       bool
+	setting            settings.Setting
 }
 
-func NewEnigma(copyExtra bool) (*Enigma, error) {
+func NewEnigma(preserveFormatting bool, preserveCase bool) (*Enigma, error) {
 	return &Enigma{
-		copyExtra: copyExtra,
+		preserveFormatting: preserveFormatting,
+		preserveCase:       preserveCase,
 	}, nil
 }
 
@@ -37,7 +40,8 @@ func (what *Enigma) Encrypt(plainText []byte, key string) ([]byte, error) {
 
 func (what *Enigma) EncryptWithSetting(plainText []byte, setting *settings.Setting) ([]byte, error) {
 	*what = Enigma{
-		copyExtra: what.copyExtra,
+		preserveFormatting: what.preserveFormatting,
+		preserveCase:       what.preserveCase,
 	}
 
 	if setting == nil {
@@ -47,7 +51,7 @@ func (what *Enigma) EncryptWithSetting(plainText []byte, setting *settings.Setti
 	what.setting = *setting
 	var cipherText []byte
 	for index, plain := range plainText {
-		if what.copyExtra {
+		if what.preserveFormatting {
 			if !what.shouldEncrypt(plain) {
 				cipherText = append(cipherText, plain)
 				continue
@@ -66,7 +70,8 @@ func (what *Enigma) EncryptWithSetting(plainText []byte, setting *settings.Setti
 
 		what.setting.Rotors.Move()
 
-		encrypted := strings.IndexRune(defs.UpperCase, rune(plain))
+		plainRune := rune(plain)
+		encrypted := strings.IndexRune(defs.UpperCase, unicode.ToUpper(plainRune))
 		if encrypted < 0 {
 			return nil, fmt.Errorf("invalid character %q", plain)
 		}
@@ -96,7 +101,12 @@ func (what *Enigma) EncryptWithSetting(plainText []byte, setting *settings.Setti
 			return nil, fmt.Errorf("plug board decryption of %q failed", plain)
 		}
 
-		cipherText = append(cipherText, defs.UpperCase[encrypted])
+		encryptedRune := rune(defs.UpperCase[encrypted])
+		if unicode.IsLower(plainRune) && what.preserveCase {
+			encryptedRune = unicode.ToLower(encryptedRune)
+		}
+
+		cipherText = append(cipherText, byte(encryptedRune))
 	}
 
 	return cipherText, nil
@@ -117,7 +127,8 @@ func (what *Enigma) Decrypt(cipherText []byte, key string) ([]byte, error) {
 
 func (what *Enigma) DecryptWithSetting(cipherText []byte, setting *settings.Setting) ([]byte, error) {
 	*what = Enigma{
-		copyExtra: what.copyExtra,
+		preserveFormatting: what.preserveFormatting,
+		preserveCase:       what.preserveCase,
 	}
 
 	if setting == nil {
@@ -127,7 +138,7 @@ func (what *Enigma) DecryptWithSetting(cipherText []byte, setting *settings.Sett
 	what.setting = *setting
 	var plainText []byte
 	for index, encrypted := range cipherText {
-		if what.copyExtra {
+		if what.preserveFormatting {
 			if !what.shouldEncrypt(encrypted) {
 				plainText = append(plainText, encrypted)
 				continue
@@ -146,7 +157,8 @@ func (what *Enigma) DecryptWithSetting(cipherText []byte, setting *settings.Sett
 
 		what.setting.Rotors.Move()
 
-		plain := strings.IndexRune(defs.UpperCase, rune(encrypted))
+		encryptedRune := rune(encrypted)
+		plain := strings.IndexRune(defs.UpperCase, unicode.ToUpper(encryptedRune))
 		if plain < 0 {
 			return nil, fmt.Errorf("invalid character %q", encrypted)
 		}
@@ -176,7 +188,12 @@ func (what *Enigma) DecryptWithSetting(cipherText []byte, setting *settings.Sett
 			return nil, fmt.Errorf("plug board decryption of %q failed", encrypted)
 		}
 
-		plainText = append(plainText, defs.UpperCase[plain])
+		plainRune := rune(defs.UpperCase[plain])
+		if unicode.IsLower(encryptedRune) && what.preserveCase {
+			plainRune = unicode.ToLower(plainRune)
+		}
+
+		plainText = append(plainText, byte(plainRune))
 	}
 
 	return plainText, nil
@@ -257,5 +274,9 @@ func (what *Enigma) readKeyAndPlugBoard(key string, plugBoard string) (*settings
 }
 
 func (what *Enigma) shouldEncrypt(c byte) bool {
+	if what.preserveCase {
+		return strings.ContainsRune(defs.UpperCase, unicode.ToUpper(rune(c)))
+	}
+
 	return strings.ContainsRune(defs.UpperCase, rune(c))
 }

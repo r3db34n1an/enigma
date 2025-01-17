@@ -31,9 +31,42 @@ plug_board:
     W: I
     X: V
 `,
-		Plain:     "OURDIRECTORISSAFE",
-		Encrypted: "HRMZLDHBJRFRJXMAH",
-		Decrypted: "OURDIRECTORISSAFE",
+		Plain:              "OurDirectorIsSafe",
+		Encrypted:          "HrmZldhbjrfRjXmah",
+		Decrypted:          "OurDirectorIsSafe",
+		PreserveCase:       true,
+		PreserveFormatting: true,
+	},
+	{
+		Key: `
+rotors:
+    - name: V
+      position: Z
+      ring_setting: L
+    - name: I
+      position: H
+      ring_setting: "Y"
+    - name: II
+      position: J
+      ring_setting: H
+reflector: B
+plug_board:
+    D: Z
+    G: B
+    M: E
+    "N": L
+    P: "Y"
+    R: Q
+    S: J
+    T: F
+    W: I
+    X: V
+`,
+		Plain:              "Our director is safe!",
+		Encrypted:          "Hrm zldhbjrf rj xmah!",
+		Decrypted:          "Our director is safe!",
+		PreserveCase:       true,
+		PreserveFormatting: true,
 	},
 	{
 		Key: `
@@ -53,9 +86,10 @@ plug_board:
     C: D
     E: F
 `,
-		Plain:     "HELLOWORLD",
-		Encrypted: "YGMGTTPJNJ",
-		Decrypted: "HELLOWORLD",
+		Plain:              "HELLOWORLD",
+		Encrypted:          "YGMGTTPJNJ",
+		Decrypted:          "HELLOWORLD",
+		PreserveFormatting: true,
 	},
 	{
 		Key: `
@@ -82,9 +116,10 @@ plug_board:
     J: W
     I: Z
 `,
-		Plain:     "NEVERXGONNAXGIVEXYOUXUPXNEVERXGONNAXLETXYOUXDOWNXIXBETXYOUXHAVEXNEVERXBEENXRICKROLLEDXWITHXANXENIGMAXBEFOREXGOODXLUCKXANDXTHANKXYOUXFORXREADING",
-		Encrypted: "PJHLFULLUECCPFLCIVPMFDAWJCWANLVXAIXFHMACNLVNCSXOIXFUTGWXSRULRTXPOIPUINCYOGWKGZAZDMVPOUIDCRSCHSZCNTFJADAVIKOGSYAJGAFNELPOMBMTXEXVAREVMSBNHLJFEGZ",
-		Decrypted: "NEVERXGONNAXGIVEXYOUXUPXNEVERXGONNAXLETXYOUXDOWNXIXBETXYOUXHAVEXNEVERXBEENXRICKROLLEDXWITHXANXENIGMAXBEFOREXGOODXLUCKXANDXTHANKXYOUXFORXREADING",
+		Plain:              "NEVERXGONNAXGIVEXYOUXUPXNEVERXGONNAXLETXYOUXDOWNXIXBETXYOUXHAVEXNEVERXBEENXRICKROLLEDXWITHXANXENIGMAXBEFOREXGOODXLUCKXANDXTHANKXYOUXFORXREADING",
+		Encrypted:          "PJHLFULLUECCPFLCIVPMFDAWJCWANLVXAIXFHMACNLVNCSXOIXFUTGWXSRULRTXPOIPUINCYOGWKGZAZDMVPOUIDCRSCHSZCNTFJADAVIKOGSYAJGAFNELPOMBMTXEXVAREVMSBNHLJFEGZ",
+		Decrypted:          "NEVERXGONNAXGIVEXYOUXUPXNEVERXGONNAXLETXYOUXDOWNXIXBETXYOUXHAVEXNEVERXBEENXRICKROLLEDXWITHXANXENIGMAXBEFOREXGOODXLUCKXANDXTHANKXYOUXFORXREADING",
+		PreserveFormatting: true,
 	},
 	{
 		Key: `
@@ -147,13 +182,14 @@ MBGNJIGPNJMEMKKLLJPAOHIFMMKHEPIJ
 
 YOUR DIRECTOR OF APPSEC
 `,
+		PreserveFormatting: true,
 	},
 }
 
 func TestGenerate(t *testing.T) {
 	for _, item := range testCases {
 		for i := 0; i < 1000; i++ {
-			cipher, cipherError := NewEnigma(true)
+			cipher, cipherError := NewEnigma(item.PreserveFormatting, item.PreserveCase)
 			assert.Nil(t, cipherError)
 			if cipher == nil {
 				return
@@ -177,7 +213,7 @@ func TestGenerate(t *testing.T) {
 
 func TestEncrypt(t *testing.T) {
 	for _, item := range testCases {
-		cipher, cipherError := NewEnigma(true)
+		cipher, cipherError := NewEnigma(item.PreserveFormatting, item.PreserveCase)
 		assert.Nil(t, cipherError)
 		if cipher == nil {
 			return
@@ -193,7 +229,7 @@ func TestEncrypt(t *testing.T) {
 
 func TestDecrypt(t *testing.T) {
 	for _, item := range testCases {
-		cipher, cipherError := NewEnigma(true)
+		cipher, cipherError := NewEnigma(item.PreserveFormatting, item.PreserveCase)
 		assert.Nil(t, cipherError)
 		if cipher == nil {
 			return
