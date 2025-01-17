@@ -188,7 +188,7 @@ func (what *Enigma) DecryptWithPlugBoard(cipherText []byte, key string, plugBoar
 		return nil, fmt.Errorf("failed to read key: %v", keyError)
 	}
 
-	return what.EncryptWithSetting(cipherText, setting)
+	return what.DecryptWithSetting(cipherText, setting)
 }
 
 func (what *Enigma) GenerateKey() (string, error) {
